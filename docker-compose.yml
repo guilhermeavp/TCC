@@ -1,0 +1,158 @@
+version: "2"
+
+services:
+  consul1: 
+    image: "consul:1.15.4"
+    container_name: "consul1"
+    dns:
+      - "8.8.8.8" #internal DNS ip
+    dns_search: internal.namespace #namespace used in internal DNS
+    environment:
+      - "CONSUL_LOCAL_CONFIG={\"disable_update_check\": true}"
+      - "CONSUL_BIND_INTERFACE=eth0"
+      # environment:
+      #   - "CONSUL_LOCAL_CONFIG={\"disable_update_check\": true}"
+      #   - "CONSUL_BIND_INTERFACE=eth0"
+      #   - "CONSUL_HTTP_ADDR=0.0.0.0"
+    hostname: "consul1"
+    expose:
+      - 8500
+    ports:
+      - "8301:8301"
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:53/udp"
+    # command: "agent -server -bootstrap -ui -client=0.0.0.0 -bind='{{ GetPrivateIP }}'"
+    command: "agent -server -bootstrap -ui -client=0.0.0.0 -bind='{{ GetInterfaceIP \"eth0\" }}'"
+    networks:
+      - api-network
+  consul2: 
+    image: "consul:1.15.4"
+    hostname: "consul2"
+    dns:
+      - "8.8.8.8" #internal DNS ip
+    ports:
+      - "8400"
+      - "8500"
+      - "8600"
+    command: "agent -server -retry-join consul1"
+    depends_on:
+      - consul1
+    networks:
+      - api-network
+  api: 
+    image: "guilhermeavp/api:V1"
+    hostname: "api"
+    links:
+      - consul1
+    expose:
+      - 10800
+    ports:
+      - "10800:10800"
+    depends_on:
+      - consul1
+      - consul2
+    networks:
+      - api-network
+  produtos: 
+    image: "guilhermeavp/produtos:V1"
+    hostname: "produtos"
+    links:
+      - consul1
+    depends_on:
+      - consul1
+      - consul2
+    networks:
+      - api-network
+  auth: 
+    image: "guilhermeavp/auth:V1"
+    hostname: "auth"
+    links:
+      - consul1
+    depends_on:
+      - consul1
+      - consul2
+    networks:
+      - api-network
+  carrinho: 
+    image: "guilhermeavp/carrinho:V1"
+    hostname: "carrinho"
+    links:
+      - consul1
+    depends_on:
+      - consul1
+      - consul2
+    networks:
+      - api-network
+  estoque: 
+    image: "guilhermeavp/estoque:V1"
+    hostname: "estoque"
+    links:
+      - consul1
+    depends_on:
+      - consul1
+      - consul2
+    networks:
+      - api-network
+  payment: 
+    image: "guilhermeavp/payment:V1"
+    hostname: "payment"
+    links:
+      - consul1
+    depends_on:
+      - consul1
+      - consul2
+    networks:
+      - api-network
+  pedidos: 
+    image: "guilhermeavp/pedidos:V1"
+    hostname: "pedidos"
+    links:
+      - consul1
+    depends_on:
+      - consul1
+      - consul2
+    networks:
+      - api-network
+  precos: 
+    image: "guilhermeavp/precos:V1"
+    hostname: "precos"
+    links:
+      - consul1
+    depends_on:
+      - consul1
+      - consul2
+    networks:
+      - api-network
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: teste
+    ports:
+      - "27017:27017"
+    volumes:
+      - /home/Desenvolvimento/Docker/Volumes/MongoDB:/data/db
+    networks:
+      - mongo-compose-network
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:teste@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: teste
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: teste
+    links:
+      - mongo
+    networks:
+      - mongo-compose-network
+networks: 
+    mongo-compose-network:
+      driver: bridge
+    api-network:
+      driver: bridge
