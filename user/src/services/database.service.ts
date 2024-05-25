@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 
 export async function connectToDatabase () {
   dotenv.config();
-
   mongoose.set('strictQuery', false);
   const mongoDB = process.env.DB_CONN_STRING;
 

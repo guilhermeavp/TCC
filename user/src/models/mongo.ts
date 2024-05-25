@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb';
-import {Auth} from '../interface/user';
 import { badData } from '@hapi/boom';
 import { SomeModel } from '../schema/user';
 
@@ -17,10 +16,10 @@ export class Mongo {
     async getID(id: any): Promise<any> {
         try {
             const query = { _id: new ObjectId(id) };
-            const auth = await SomeModel.find(query).exec();
+            const user = await SomeModel.find(query).exec();
       
-            if (auth) {
-                return Promise.resolve(auth);
+            if (user) {
+                return Promise.resolve(user);
             }
         } catch (error) {
             return Promise.reject(badData(`Unable to find matching document with id: ${id}`));
@@ -29,7 +28,7 @@ export class Mongo {
 
     async create(body: any): Promise<any> {
         try {
-            const newAuth = body as Auth;
+            const newAuth = body as any;
             const result = await new SomeModel(newAuth);
             return Promise.resolve(`Successfully created a new auth with id ${result._id}`);
         } catch (error) {
@@ -39,7 +38,7 @@ export class Mongo {
 
     async update(body: any, id: any): Promise<any> {
         try {
-            const updatedauth: Auth = body as Auth;
+            const updatedauth: any = body as any;
             const query = { _id: new ObjectId(id) };
           
             await SomeModel.updateOne(query, { $set: updatedauth });

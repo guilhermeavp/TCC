@@ -27,20 +27,6 @@ export const flatPick = (object, paths) => {
 };
 
 // Global validation fail function
-export const failAction = ({ i18n }, h, err) => {
-    const { output, details } = err;
-
-
-    // Turn to i18n payload
-    if (output?.payload) {
-        output.payload.message =
-            i18n.__(`validation.${output.payload.message}`);
-    }
-
-    if (details) {
-        h.logger({ content: details });
-        return badRequest('response validation');
-    }
-
+export const failAction = (request, h, err) => {
     return err;
 };
