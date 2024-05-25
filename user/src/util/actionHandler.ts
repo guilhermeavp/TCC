@@ -1,5 +1,4 @@
 import { last, get, set, isArray, forEach } from 'lodash';
-import { badRequest } from '@hapi/boom';
 
 const pick = (object, paths) => {
     const item = {};

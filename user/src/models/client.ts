@@ -1,8 +1,9 @@
 import { ObjectId } from 'mongodb';
 import { badData } from '@hapi/boom';
 import { SomeModel } from '../schema/user';
+import { compare, encrypt } from '../util/cript';
 
-export class Mongo {
+export class User {
 
     async getAll(): Promise<any> {
         try {
@@ -11,6 +12,20 @@ export class Mongo {
          } catch (error) {
              return Promise.reject(badData(error.message));
          }
+    }
+
+    async validUser(body:any): Promise<any> {
+        try {
+            const {username, password} = body;
+            const query = { username: username };
+            const user = await SomeModel.find(query).exec();
+            console.log('user',user);
+            const validPassword = await compare(password,user[0].password);
+            
+            return Promise.resolve(validPassword);
+        } catch (error) {
+            return Promise.reject(badData(`Unable to find matching document with`));
+        }
     }
 
     async getID(id: any): Promise<any> {
@@ -28,8 +43,17 @@ export class Mongo {
 
     async create(body: any): Promise<any> {
         try {
-            const newAuth = body as any;
-            const result = await new SomeModel(newAuth);
+            const query = { username: body.username };
+            const user = await SomeModel.find(query).exec();
+            if (user.length){
+                return Promise.reject(badData('Nome de usuario já utilizado'));
+            }
+            const password = await encrypt(body.password);
+            const bodyEncrypted = {...body, password: password};
+            console.log('bodyEncrypted',bodyEncrypted);
+
+            const result = await new SomeModel(bodyEncrypted);
+            result.save();
             return Promise.resolve(`Successfully created a new auth with id ${result._id}`);
         } catch (error) {
             return Promise.reject(badData(error.message));

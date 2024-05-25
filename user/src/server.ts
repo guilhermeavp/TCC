@@ -1,5 +1,5 @@
 
-import { initRoutes, server } from './routes/user.router';
+import { initRoutes, server } from './routes';
 import { connectToDatabase } from './services/database.service';
 import { initConsul } from './util/consul';
 
@@ -19,8 +19,8 @@ const init = async () => {
         console.error('Database connection failed', error);
         process.exit();
     });
-
-    //initConsul();
+    //TODO
+    initConsul();
 };
 
 init();

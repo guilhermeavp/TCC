@@ -1,6 +1,6 @@
 import Consul from 'consul';
 import { randomUUID } from 'crypto';
-import { server } from '../routes/user.router';
+import { server } from '../routes';
   export const initConsul = async () => {
     const consul = new Consul({
         host:'127.0.0.1'

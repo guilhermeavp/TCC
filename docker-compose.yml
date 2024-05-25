@@ -8,6 +8,7 @@ services:
       - "8.8.8.8" #internal DNS ip
     dns_search: internal.namespace #namespace used in internal DNS
     environment:
+      - 'CONSUL_LOCAL_CONFIG={"limits": {"http_max_conns_per_client": 2000 }}'
       - "CONSUL_LOCAL_CONFIG={\"disable_update_check\": true}"
       - "CONSUL_BIND_INTERFACE=eth0"
       # environment:

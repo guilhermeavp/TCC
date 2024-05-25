@@ -11,11 +11,15 @@
     "start": "nodemon --watch src src/server.ts"
   },
   "dependencies": {
+    "@hapi/boom": "^10.0.1",
     "@hapi/h2o2": "^10.0.0",
     "@hapi/hapi": "^20.2.2",
+    "aguid": "^2.0.0",
+    "axios": "^1.7.2",
     "consul": "^1.1.0",
-    "dotenv": "^16.0.3",
-    "hapi-auth-jwt2": "^10.5.1"
+    "dotenv": "^16.4.5",
+    "hapi-auth-jwt2": "^10.5.1",
+    "mongoose": "^8.4.0"
   },
   "devDependencies": {
     "@types/consul": "^0.40.0",
@@ -28,7 +32,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-promise": "^6.0.1",
-    "nodemon": "^2.0.20",
+    "nodemon": "^3.1.0",
     "ts-node": "^10.9.1",
     "tslib": "^2.4.0",
     "typescript": "^4.8.4"

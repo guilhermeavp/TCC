@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { badData, badRequest } from '@hapi/boom';
+import { badData } from '@hapi/boom';
 import { SomeModel } from '../schema/user';
 import { compare, encrypt } from '../util/cript';
 
@@ -12,24 +12,6 @@ export class User {
          } catch (error) {
              return Promise.reject(badData(error.message));
          }
-    }
-
-    async validUser(body:any): Promise<any> {
-        try {
-            const {username, password} = body;
-            const query = { username: username };
-            const user = await SomeModel.find(query).exec();
-            console.log('user',user);
-            if(!user.length){
-                return Promise.reject(badRequest('Usuario ou senha inválidos')); 
-            }
-            console.log('user',user);
-            const validPassword = await compare(password,user[0].password);
-            if(!validPassword) return Promise.reject(badRequest('Usuario ou senha inválidos'));
-            return Promise.resolve(validPassword);
-        } catch (error) {
-            return Promise.reject(badData('Ocorreu um erro durante o processamento, tentar novamente mais tarde.'));
-        }
     }
 
     async getID(id: any): Promise<any> {

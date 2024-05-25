@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "module": "Node16",
+    "module": "nodenext",
     "esModuleInterop": true,
     "target": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "sourceMap": true,
     "outDir": "dist"
   },
