@@ -5,8 +5,8 @@ export let servicos = [];
 export const urls = new Map<string, string>();
 
 const consul = new Consul({
-  host:'127.0.0.1'
- // host:'127.0.0.1@consul1'
+  //host:'127.0.0.1'
+  host:'127.0.0.1@consul1'
 });
 
 export const initConsul = async () => {

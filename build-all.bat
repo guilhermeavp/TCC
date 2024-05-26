@@ -2,7 +2,7 @@
 cd api
 START build.bat
 cd ..
-cd auth
+cd user
 START build.bat
 cd ..
 cd carrinho
