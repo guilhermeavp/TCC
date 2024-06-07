@@ -1,7 +1,7 @@
 {
-  "name": "produtos",
+  "name": "user",
   "version": "1.0.0",
-  "description": "Gerenciamento de produtos",
+  "description": "Gerenciamento de user",
   "author": "Luis Fernando Planella Gonzalez",
   "license": "MIT",
   "main": "dist/server.js",

@@ -4,6 +4,7 @@ import { connectToDatabase } from './services/database.service';
 import { initConsul } from './util/consul';
 
 const init = async () => {
+  server.start();
   await connectToDatabase();
   await initConsul();
   await initRoutes();

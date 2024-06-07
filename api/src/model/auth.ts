@@ -19,11 +19,8 @@ export class Servico {
       iat: new Date().getTime()
     };
     try {
-      await  axios.post('/api/valid', 
-        dto, 
-        {
-          baseURL: urls.get('user')
-        }
+      await  axios.post(`${urls.get('user')}/valid`, 
+        dto
       );
       const token = JWT.sign(session, process.env.SECRET);
       const result = await new SomeModel(session);
@@ -52,11 +49,8 @@ export class Servico {
 
   async createUser(req: any): Promise<boolean> {
     try {
-      const response = await axios.post('/api/', 
-        req, 
-        {
-          baseURL: urls.get('user')
-        }
+      const response = await axios.post(`${urls.get('user')}/`, 
+        req
       );
       return Promise.resolve(response.data);
     } catch (error){

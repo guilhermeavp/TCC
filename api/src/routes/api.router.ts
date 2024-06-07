@@ -32,6 +32,7 @@ export const discoveryRoutes = async (listRoutes) => {
   };
 
 export const initRoutes = async () => {
+  console.log('urls',urls);
   const authService = new Servico();
   await server.register([
     JWTAuth,
@@ -95,6 +96,4 @@ server.auth.default('jwt');
   });
 
   await discoveryRoutes(servicos);
-
-  server.start();
   };

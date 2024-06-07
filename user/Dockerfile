@@ -6,6 +6,8 @@ WORKDIR /src
 
 ADD ./package.json /src/package.json
 
+ADD ./.env /src/.env
+
 COPY ./dist /src/dist/
 
 COPY ./tsconfig.json /src/tsconfig.json

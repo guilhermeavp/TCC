@@ -65,9 +65,9 @@ services:
       - consul2
     networks:
       - api-network
-  auth: 
-    image: "guilhermeavp/auth:V1"
-    hostname: "auth"
+  user: 
+    image: "guilhermeavp/user:V1"
+    hostname: "user"
     links:
       - consul1
     depends_on:
@@ -135,7 +135,7 @@ services:
     volumes:
       - /home/Desenvolvimento/Docker/Volumes/MongoDB:/data/db
     networks:
-      - mongo-compose-network
+      - api-network
   mongo-express:
     image: mongo-express
     ports:
@@ -151,9 +151,7 @@ services:
     links:
       - mongo
     networks:
-      - mongo-compose-network
+      - api-network
 networks: 
-    mongo-compose-network:
-      driver: bridge
     api-network:
       driver: bridge
