@@ -2,7 +2,7 @@
   "name": "api",
   "version": "1.0.0",
   "description": "API gateway",
-  "author": "Luis Fernando Planella Gonzalez",
+  "author": "Guilherme Augusto Vieira Penteado",
   "license": "MIT",
   "main": "dist/server.js",
   "scripts": {

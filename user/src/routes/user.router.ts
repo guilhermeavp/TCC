@@ -3,7 +3,13 @@ import { User } from '../models/user';
 import { userCreate } from '../controller/user';
 import { failAction } from '../util/actionHandler';
 
-export const server = HapiServer();
+export const server = HapiServer({
+  routes: {
+    cors: {
+      origin: ['*'],
+  }
+  }
+});
 
 const user = new User();
 

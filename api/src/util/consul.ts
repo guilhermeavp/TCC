@@ -32,8 +32,7 @@ export const initConsul = async () => {
       urls.set(servico, nodos.map(n => `http://${n.Service.Address}:${n.Service.Port}/api`)[0]);
     }).on('error', e => console.error(e));
   }
-  console.log('catalog',catalog)
-  setTimeout(() => {
+/*   setTimeout(() => {
     initConsul();
-  }, 20000);
+  }, 1000000); */
 };

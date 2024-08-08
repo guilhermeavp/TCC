@@ -19,6 +19,7 @@ export class Servico {
       iat: new Date().getTime()
     };
     try {
+      console.log('dto',dto)
       await  axios.post(`${urls.get('user')}/valid`, 
         dto
       );

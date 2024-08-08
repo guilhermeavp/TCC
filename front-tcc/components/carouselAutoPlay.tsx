@@ -19,7 +19,7 @@ export default function CarouselAutoPlay({name}:ICarrousel) {
   )
   return (
     <>
-      <div className="flex justify-center	bg-slate-200 flex-col shadow-lg rounded-lg p-3">
+      <div className="flex justify-center	bg-gray-200 flex-col shadow-lg rounded-lg p-3">
       <h2 className="text-3xl font-bold p-2">{name}</h2>
       <div className="flex justify-center mx-3.5">
       <Carousel 

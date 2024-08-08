@@ -7,7 +7,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const server = HapiServer({
-  port: process.env.PORT
+  port: process.env.PORT,
+  routes: {
+    cors: {
+      origin: ['*'],
+  }
+  }
 });
 
 export const discoveryRoutes = async (listRoutes) => {
@@ -32,7 +37,6 @@ export const discoveryRoutes = async (listRoutes) => {
   };
 
 export const initRoutes = async () => {
-  console.log('urls',urls);
   const authService = new Servico();
   await server.register([
     JWTAuth,
@@ -70,7 +74,9 @@ server.auth.default('jwt');
   server.route({
     method: 'POST',
     path: '/token',
-    options: { auth: false },
+    options: { 
+      auth: false
+    },
     handler: async (req, reply) =>{ 
       try{
         const token = await authService.validar(req.payload); // synchronous
